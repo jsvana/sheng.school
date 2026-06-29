@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>~*~ The Quansheng K1 CW Trainer ~*~ [ Learn Morse Code Cheap! ]</title>
+<meta name="description" content="Turn a $20 Quansheng UV-K1 / UV-K5 V3 handheld radio into a dedicated Morse code (CW) trainer. The cheapest accessory in ham radio for learning the code.">
+<style>
+  /* ===== ye olde cheesy schoolsite stylesheet, circa 200X ===== */
+  :root{
+    --ink:#10210f;
+    --lcd-bg:#9ca87c;     /* greenish ST7565 backlight */
+    --lcd-bg2:#aebb8c;
+    --lcd-px:#16210f;     /* dark pixels */
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Comic Sans MS","Comic Sans",Chalkboard,"Trebuchet MS",cursive,sans-serif;
+    color:#1a1a3a;
+    background-color:#000;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,.05) 0 12px, transparent 12px 24px),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><text x='3' y='30' font-size='30' fill='%23ffd70022'>%E2%98%85</text></svg>");
+    background-attachment:fixed;
+  }
+  .page{
+    max-width:880px;margin:0 auto;
+    background:#fffbe6;
+    background-image:linear-gradient(#fffbe6,#fff7d6);
+    border-left:6px ridge #ffcc00;border-right:6px ridge #ffcc00;
+    box-shadow:0 0 40px #000;
+  }
+
+  /* ---- top banner ---- */
+  header.banner{
+    background:#000080;
+    background-image:linear-gradient(135deg,#000080,#2a0a6a 50%,#000080);
+    color:#fff;text-align:center;padding:14px 8px 10px;
+    border-bottom:4px double #ffcc00;
+  }
+  header.banner h1{
+    margin:0;font-size:30px;line-height:1.1;
+    color:#ffff00;
+    text-shadow:2px 2px 0 #ff0000,4px 4px 0 #000;
+    letter-spacing:1px;
+  }
+  .rainbow{
+    background:linear-gradient(90deg,#ff0000,#ff8800,#ffee00,#22cc22,#1166ff,#9900ff);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    font-weight:bold;
+  }
+  .subtitle{color:#9ff;font-size:15px;margin-top:6px;}
+  marquee{font-weight:bold;}
+  .topmarquee{background:#ffff00;color:#cc0000;border-top:2px solid #000;border-bottom:2px solid #000;padding:3px 0;font-size:14px;}
+
+  .blink{animation:blink 1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ---- nav ---- */
+  nav.menu{
+    background:#c0c0c0;
+    background-image:linear-gradient(#e8e8e8,#b0b0b0);
+    text-align:center;padding:8px 4px;border-bottom:3px groove #888;
+    position:sticky;top:0;z-index:5;
+  }
+  nav.menu a{
+    display:inline-block;margin:3px;padding:5px 11px;
+    background:#000080;color:#ffff00 !important;font-weight:bold;font-size:13px;
+    text-decoration:none;border:2px outset #6a6aff;border-radius:3px;
+  }
+  nav.menu a:hover{background:#cc0000;color:#fff !important;border-style:inset;}
+
+  main{padding:18px 22px 4px;}
+
+  section{margin:0 0 26px;}
+  h2{
+    background:#cc0000;color:#fff;margin:0 0 10px;padding:6px 12px;
+    font-size:21px;border-radius:8px 8px 0 0;
+    border:2px solid #800000;box-shadow:2px 2px 0 #888;
+  }
+  h2 .ico{filter:drop-shadow(1px 1px 0 #000);}
+  h3{color:#000080;border-bottom:2px dotted #cc0000;padding-bottom:3px;margin-top:22px;}
+  p{line-height:1.55;font-size:15.5px;}
+  a{color:#0000ee;}
+  a:visited{color:#9900cc;}
+  .lead{font-size:17px;}
+
+  .pricetag{
+    display:inline-block;transform:rotate(-4deg);
+    background:#ffeb00;border:2px dashed #cc0000;color:#cc0000;
+    font-weight:bold;padding:2px 10px;border-radius:6px;font-size:15px;
+    box-shadow:2px 2px 0 #999;
+  }
+
+  /* fake beveled "window" cards */
+  .card{
+    background:#fff;border:3px ridge #ffcc00;border-radius:6px;
+    padding:12px 16px;margin:14px 0;box-shadow:3px 3px 0 #d9c97a;
+  }
+  .card h3{margin-top:0;}
+
+  ul.fancy{list-style:none;padding-left:6px;}
+  ul.fancy li{margin:7px 0;padding-left:26px;position:relative;line-height:1.5;}
+  ul.fancy li:before{content:"\1F4FB";position:absolute;left:0;}
+
+  ol.steps{counter-reset:s;list-style:none;padding-left:0;}
+  ol.steps li{
+    counter-increment:s;position:relative;margin:10px 0;padding:8px 8px 8px 48px;
+    background:#f3f8ff;border:1px solid #99b;border-radius:5px;line-height:1.5;
+  }
+  ol.steps li:before{
+    content:counter(s);position:absolute;left:8px;top:50%;transform:translateY(-50%);
+    width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;
+    background:#cc0000;color:#fff;font-weight:bold;
+  }
+
+  .warn{background:#fff3cd;border:2px solid #e0a800;border-left:8px solid #e0a800;border-radius:5px;padding:10px 14px;margin:14px 0;font-size:14.5px;}
+  .tip{background:#e2f7e2;border:2px solid #2faa2f;border-left:8px solid #2faa2f;border-radius:5px;padding:10px 14px;margin:14px 0;font-size:14.5px;}
+
+  kbd{background:#222;color:#0f0;border-radius:4px;padding:1px 6px;font-family:"Courier New",monospace;font-size:13px;border:1px solid #0a0;}
+  code{background:#eee;border:1px solid #bbb;border-radius:3px;padding:0 4px;font-family:"Courier New",monospace;}
+
+  /* ===== LCD MOCKUPS (faithful 128x64 ST7565) ===== */
+  .gallery{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;}
+  .device{flex:0 0 auto;text-align:center;}
+  .lcd{
+    width:256px;height:128px;          /* 2x of 128x64 */
+    background:linear-gradient(var(--lcd-bg),var(--lcd-bg2));
+    border:10px solid #2b2b2b;border-radius:8px;
+    box-shadow:inset 0 0 12px rgba(0,0,0,.35),0 4px 0 #111,3px 3px 6px #555;
+    position:relative;overflow:hidden;
+    font-family:"Courier New",monospace;color:var(--lcd-px);
+  }
+  .lcd:after{ /* faint scanline glass */
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(rgba(0,0,0,.06) 0 1px,transparent 1px 4px);
+  }
+  .lcd .row{position:absolute;left:6px;right:6px;font-size:13px;line-height:1;font-weight:bold;letter-spacing:.5px;}
+  .lcd .r0{top:7px;}
+  .lcd .r1{top:24px;font-size:12px;font-weight:normal;}
+  .lcd .rbig{top:46px;left:0;right:0;text-align:center;font-size:30px;font-weight:bold;letter-spacing:2px;}
+  .lcd .ropts{top:88px;left:0;right:0;text-align:center;font-size:14px;}
+  .lcd .rhint{bottom:6px;left:0;right:0;text-align:center;font-size:11px;}
+  .lcd .right{position:absolute;right:0;}
+  .lcd .inv{background:var(--lcd-px);color:var(--lcd-bg);padding:1px 4px;border-radius:2px;}
+  .lcd .morse{letter-spacing:3px;font-size:18px;}
+  .device .cap{font-size:13px;color:#000080;font-weight:bold;margin-top:7px;max-width:280px;}
+  .device .cap span{display:block;font-weight:normal;color:#444;font-size:12px;}
+
+  table.specs{border-collapse:collapse;width:100%;font-size:14.5px;background:#fff;}
+  table.specs th,table.specs td{border:1px solid #c9b85a;padding:6px 10px;text-align:left;}
+  table.specs th{background:#000080;color:#ffff00;width:38%;}
+  table.specs tr:nth-child(even) td{background:#fffae0;}
+
+  .buybtns{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin:10px 0;}
+  .buybtn{
+    display:block;text-decoration:none;text-align:center;
+    padding:14px 22px;border-radius:10px;font-size:18px;font-weight:bold;
+    border:3px outset;min-width:200px;color:#fff !important;
+  }
+  .buybtn small{display:block;font-weight:normal;font-size:12px;opacity:.9;}
+  .buy-bkg{background:#7a1fa2;border-color:#b46ad0;}
+  .buy-amz{background:#ff9900;border-color:#ffc266;color:#111 !important;}
+  .buybtn:hover{border-style:inset;filter:brightness(1.1);}
+
+  /* keypad legend */
+  .keys{display:flex;flex-wrap:wrap;gap:6px;}
+  .keys span{background:#222;color:#fff;border-radius:5px;padding:4px 8px;font-size:13px;border:1px solid #555;}
+  .keys b{color:#ffdd00;font-family:monospace;}
+
+  footer{
+    background:#000080;color:#cdd;text-align:center;padding:16px 12px;margin-top:14px;
+    border-top:4px double #ffcc00;font-size:13px;
+  }
+  footer a{color:#9ff;}
+  .counter{display:inline-block;background:#000;color:#0f0;font-family:"Courier New",monospace;
+    padding:3px 8px;border:2px inset #0a0;letter-spacing:4px;font-size:16px;}
+  .badges{margin:10px 0;}
+  .badge{display:inline-block;background:#111;color:#0ff;border:1px solid #066;border-radius:3px;
+    padding:3px 7px;margin:3px;font-size:11px;font-family:"Courier New",monospace;}
+  .construction{font-size:13px;color:#cc0000;font-weight:bold;}
+  hr.fancy{border:0;height:6px;background:repeating-linear-gradient(90deg,#cc0000 0 14px,#ffff00 14px 28px,#000080 28px 42px);margin:22px 0;border-radius:3px;}
+
+  @media (max-width:600px){
+    header.banner h1{font-size:21px;}
+    main{padding:14px;}
+    .lcd{width:222px;height:111px;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="banner">
+    <h1>&#128225; The Quansheng <span class="rainbow">K1</span> CW Trainer &#128225;</h1>
+    <div class="subtitle">~*~ Learn Morse Code on the <span class="blink">CHEAPEST</span> radio in the hobby ~*~</div>
+  </header>
+  <div class="topmarquee">
+    <marquee scrollamount="6">&#11088; WELCOME 2 MY WEBSITE &#11088; A $20 radio that teaches you CW &#11088; di-dah-di-dit &#11088; no soldering required &#11088; flashes from your web browser &#11088; 73! &#11088;</marquee>
+  </div>
+
+  <nav class="menu">
+    <a href="#what">What is it?</a>
+    <a href="#why">Why?</a>
+    <a href="#modes">Trainer Modes</a>
+    <a href="#screens">Screenshots</a>
+    <a href="#flash">How 2 Flash</a>
+    <a href="#buy">Where 2 Buy</a>
+  </nav>
+
+  <main>
+
+    <p class="lead">
+      Welcome, fellow radio nerd! &#128075; This here is a school project all about turning a
+      dirt-cheap <b>Quansheng UV-K1</b> (a.k.a. UV-K5 V3) handheld radio into a
+      <b>dedicated Morse code trainer</b>. You flash some custom firmware, the radio forgets
+      it was ever a radio, and boots straight into a little CW classroom.
+      <span class="pricetag">Costs about $20!!</span>
+    </p>
+
+    <!-- ===================== WHAT ===================== -->
+    <section id="what">
+      <h2><span class="ico">&#128241;</span> What the heck is a Quansheng K1?</h2>
+      <p>
+        The Quansheng <b>UV-K1</b> (sold in some places as the <b>UV-K5 V3</b>) is a tiny,
+        wildly popular dual-band ham radio handheld. It became famous because it is
+        <b>cheap</b> and its firmware can be completely rewritten by hobbyists. People have
+        crammed spectrum analyzers, FM radios, and little games onto it.
+      </p>
+      <p>
+        This project takes that hackability and points it at <b>one job</b>: teaching you
+        Morse code. The radio part (transmitting, receiving, antennas) is switched
+        <b>completely off</b>. No license needed to practice &mdash; it just beeps at you and
+        quizzes you, like a pocket flash-card machine that speaks in dits and dahs.
+      </p>
+
+      <div class="card">
+        <h3>&#128221; The boring-but-important specs</h3>
+        <table class="specs">
+          <tr><th>Radio</th><td>Quansheng UV-K1 / UV-K5 V3</td></tr>
+          <tr><th>Brain (MCU)</th><td>PY32F071 (newer chip than the original UV-K5 V1)</td></tr>
+          <tr><th>Screen</th><td>128 &times; 64 monochrome LCD (ST7565)</td></tr>
+          <tr><th>Input</th><td>The radio's own rubber keypad (numbers do the answers!)</td></tr>
+          <tr><th>Price</th><td>Roughly <b>$15&ndash;$30</b> depending where you look</td></tr>
+          <tr><th>Sound</th><td>Built-in speaker sidetone &mdash; adjustable tone &amp; WPM</td></tr>
+          <tr><th>License</th><td>Open source (Apache-2.0), built on the F4HWN &amp; NR7Y firmware</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <hr class="fancy">
+
+    <!-- ===================== WHY ===================== -->
+    <section id="why">
+      <h2><span class="ico">&#129299;</span> Why learn CW on a $20 radio?</h2>
+      <p>
+        Morse code (CW) is still one of the most fun and efficient ways to make contacts on
+        the ham bands. The trouble is, dedicated code-practice gadgets and fancy apps can get
+        pricey, and computer trainers chain you to a desk. The whole pitch of this project:
+      </p>
+      <ul class="fancy">
+        <li><b>It's the cheapest "accessory" in ham radio.</b> A spare K1 costs less than a
+          night out, and doubles as a learning tool you keep in your pocket.</li>
+        <li><b>No computer, no internet, no desk.</b> Practice on the couch, on the bus, in
+          line at the store. It's a self-contained little classroom.</li>
+        <li><b>No license required to start.</b> Nothing transmits. It only makes
+          beeps and asks you what you heard.</li>
+        <li><b>It's adaptive.</b> The trainer watches which characters trip you up and drills
+          those harder &mdash; just like a good teacher.</li>
+        <li><b>It's already in your shack.</b> Tons of hams already own a K-series Quansheng.
+          Flash a second one and you've got a trainer for free-ish.</li>
+      </ul>
+      <div class="tip">
+        <b>&#128161; The big idea:</b> instead of buying a one-trick code-practice oscillator,
+        spend the same money on a whole radio that <i>teaches you the code</i> and can be
+        flashed back to a normal radio whenever you want.
+      </div>
+    </section>
+
+    <hr class="fancy">
+
+    <!-- ===================== MODES ===================== -->
+    <section id="modes">
+      <h2><span class="ico">&#127891;</span> The Trainer Modes (the fun part)</h2>
+      <p>
+        Every mode works the same friendly way: the radio <b>plays a bit of Morse</b>, shows
+        you <b>up to four answers</b>, and you press the matching <b>number key</b> (1&ndash;4).
+        It grades you instantly, keeps score, and quietly tracks your weak spots. There are
+        <b>four</b> modes:
+      </p>
+
+      <div class="card">
+        <h3>1. &#128200; Koch &mdash; the classic ladder</h3>
+        <p>Starts you with just a couple of characters at full speed, and automatically
+        <b>adds a new character</b> once you're getting groups clean. It climbs from single
+        letters &rarr; pairs &rarr; triples &rarr; whole words. This is the proven "Koch method"
+        that real CW teachers swear by.</p>
+      </div>
+      <div class="card">
+        <h3>2. &#129488; Confuse &mdash; drills your mix-ups</h3>
+        <p>Keeps a little "confusion matrix" of the characters <i>you personally</i> get
+        mixed up (like <kbd>U</kbd> vs <kbd>V</kbd> or <kbd>5</kbd> vs <kbd>H</kbd>) and feeds
+        you those look-alike pairs until you can tell them apart cold.</p>
+      </div>
+      <div class="card">
+        <h3>3. &#128172; Phrase &mdash; real ham shorthand</h3>
+        <p>Plays common words, abbreviations, and prosigns you'll actually hear on the air
+        (<kbd>73</kbd>, <kbd>CQ</kbd>, <kbd>QTH</kbd>, <kbd>BK</kbd>&hellip;) so the code starts
+        sounding like <i>language</i> instead of random letters.</p>
+      </div>
+      <div class="card">
+        <h3>4. &#9889; Rapid &mdash; on-air realism</h3>
+        <p>Fires off callsigns, words, numbers, and US state abbreviations, multiple-choice
+        style, to build the quick recognition you need for contesting and rag-chewing.</p>
+      </div>
+
+      <div class="card">
+        <h3>&#9000;&#65039; The keypad cheat-sheet</h3>
+        <div class="keys">
+          <span><b>1&ndash;4</b> pick answer</span>
+          <span><b>A</b> select / WPM&nbsp;+</span>
+          <span><b>#</b> WPM&nbsp;&minus;</span>
+          <span><b>B / C</b> navigate</span>
+          <span><b>D</b> back</span>
+          <span><b>*</b> replay sound</span>
+          <span><b>0&ndash;9</b> digits</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="fancy">
+
+    <!-- ===================== SCREENSHOTS ===================== -->
+    <section id="screens">
+      <h2><span class="ico">&#128247;</span> Screenshots from the lil' screen</h2>
+      <p>Here's what the trainer actually looks like on that 128&times;64 LCD. (Drawn to scale,
+      pixel-faithful &mdash; the real backlight is this greeny color.)</p>
+
+      <div class="gallery">
+
+        <!-- mode picker -->
+        <div class="device">
+          <div class="lcd">
+            <div class="row r0">Choose Mode <span class="right">15wpm</span></div>
+            <div class="row r1">&#9656; Koch</div>
+            <div class="row rbig" style="top:42px;font-size:15px;">
+              <span class="inv">Koch</span>&nbsp; Confuse<br>Phrase &nbsp;Rapid
+            </div>
+            <div class="row rhint">A = start &middot; B/C = move</div>
+          </div>
+          <div class="cap">Mode picker<span>Pick your drill with B/C, start with A.</span></div>
+        </div>
+
+        <!-- Koch question -->
+        <div class="device">
+          <div class="lcd">
+            <div class="row r0">Koch <span class="right">18wpm</span></div>
+            <div class="row r1">3/5  str2 <span class="right">play&hellip;</span></div>
+            <div class="row morse rbig" style="top:40px;font-size:22px;">&minus;&middot;&nbsp;&minus;&middot;&minus;</div>
+            <div class="row ropts">1:R &nbsp;2:<span class="inv">K</span>&nbsp; 3:N &nbsp;4:G</div>
+            <div class="row rhint">press 1-4 &middot; * = replay</div>
+          </div>
+          <div class="cap">Koch &mdash; single character<span>It played a letter; tap the number next to your answer.</span></div>
+        </div>
+
+        <!-- Confuse -->
+        <div class="device">
+          <div class="lcd">
+            <div class="row r0">Confuse <span class="right">20wpm</span></div>
+            <div class="row r1">7/8  str5 <span class="right">U?V</span></div>
+            <div class="row morse rbig" style="top:40px;font-size:22px;">&middot;&middot;&minus;</div>
+            <div class="row ropts">1:<span class="inv">U</span>&nbsp; 2:V</div>
+            <div class="row rhint">your nemeses, drilled</div>
+          </div>
+          <div class="cap">Confuse &mdash; look-alike pairs<span>Drills the exact letters you keep swapping.</span></div>
+        </div>
+
+        <!-- Rapid callsign -->
+        <div class="device">
+          <div class="lcd">
+            <div class="row r0">Rapid <span class="right">22wpm</span></div>
+            <div class="row r1">12/14 str3 <span class="right">call</span></div>
+            <div class="row rbig" style="top:42px;font-size:19px;">NR7Y</div>
+            <div class="row ropts">1:N7RY 2:<span class="inv">NR7Y</span></div>
+            <div class="row rhint" style="bottom:18px;">3:MR7Y 4:NR1Y</div>
+            <div class="row rhint">callsign copy</div>
+          </div>
+          <div class="cap">Rapid &mdash; callsign copy<span>Real on-air speed, multiple choice.</span></div>
+        </div>
+
+        <!-- Correct flash -->
+        <div class="device">
+          <div class="lcd">
+            <div class="row r0">Phrase <span class="right">18wpm</span></div>
+            <div class="row r1">9/9  str9 <span class="right">RIGHT!</span></div>
+            <div class="row rbig" style="top:38px;font-size:26px;">73</div>
+            <div class="row ropts"><span class="inv">&nbsp;CORRECT &#9786;&nbsp;</span></div>
+            <div class="row rhint">streak going strong!</div>
+          </div>
+          <div class="cap">Instant feedback<span>It reveals the answer and bumps your streak.</span></div>
+        </div>
+
+      </div>
+      <p style="text-align:center;font-size:13px;color:#666;">
+        <i>(These are faithful mockups of the trainer's actual on-screen layout &mdash; swap in
+        real device photos here once you've got the K1 in hand!)</i>
+      </p>
+    </section>
+
+    <hr class="fancy">
+
+    <!-- ===================== FLASH ===================== -->
+    <section id="flash">
+      <h2><span class="ico">&#128268;</span> How to flash it (right from your browser!)</h2>
+      <p>
+        The amazing part: you don't need to install <i>anything</i>. The K-series flashes over
+        a web tool called <b>UVTools2</b> using WebSerial, straight in Chrome, Chromium, or
+        Edge. Here's the drill:
+      </p>
+
+      <div class="warn">
+        <b>&#9888;&#65039; READ THIS FIRST:</b> messing with firmware can <b>brick your radio</b>.
+        This firmware (and this site) has no warranty whatsoever &mdash; do it at your own risk.
+        <b>Only flash V3/K1 firmware to a K1 / UV-K5 V3.</b> Never flash V1/V2 firmware to it.
+      </div>
+
+      <h3>&#128190; Step 0: Back up your calibration FIRST</h3>
+      <p>Before anything, use UVTools2's <b>Dump Calib</b> mode to save a
+      <code>calibration.dat</code> file. If anything goes sideways, this is your lifeline.
+      Tip: rename the file with the radio's serial number so you don't mix units up.</p>
+
+      <h3>&#128293; Step-by-step flash</h3>
+      <ol class="steps">
+        <li>Plug the radio into your computer with a Quansheng USB programming cable
+            (the USB-C one, or the Baofeng/Kenwood double-jack cable).</li>
+        <li>Put the radio into <b>DFU / flash mode</b>: <b>hold the PTT button while turning it on</b>.
+            (On the trainer build, the bootloader still works this way, so you can always re-flash.)</li>
+        <li>Open <a href="https://armel.github.io/uvtools2/?mode=flash" target="_blank" rel="noopener">UVTools2 in Flash mode</a>
+            in Chrome / Edge.</li>
+        <li>Choose the trainer firmware <code>.bin</code> file on your computer.</li>
+        <li>Click <b>Flash Firmware</b>, then pick the serial port for your radio when asked.</li>
+        <li>Watch the progress bar. When it's done, the radio restarts &mdash; straight into the
+            CW trainer. &#127881;</li>
+      </ol>
+
+      <div class="tip">
+        <b>&#128161; Want a real paddle?</b> The trainer works fine with the keypad alone, but
+        there's an optional solder mod (the NR7Y "paddle rework") that wires a 3.5&nbsp;mm jack
+        to the tip/sleeve pins so you can send with a real iambic paddle. The PDF lives in the
+        project's <code>docs/</code> folder. Totally optional &mdash; skip it if you just want to
+        copy code.
+      </div>
+
+      <h3>&#127959;&#65039; Building it yourself (for the brave)</h3>
+      <p>If you'd rather compile from source, the repo ships a Docker helper and a CMake
+      <code>Trainer</code> preset that strips out all the RF features and leaves a lean,
+      mean morse machine. See the project's <code>CLAUDE.md</code> and <code>README.md</code>
+      for the full toolchain steps.</p>
+    </section>
+
+    <hr class="fancy">
+
+    <!-- ===================== BUY ===================== -->
+    <section id="buy">
+      <h2><span class="ico">&#128722;</span> Where to buy a K1</h2>
+      <p>You'll want a <b>Quansheng UV-K1</b> or <b>UV-K5 V3</b> (make sure it's the newer
+      PY32-based version). Grab one here:</p>
+      <div class="buybtns">
+        <a class="buybtn buy-bkg" href="https://bkg.club/" target="_blank" rel="noopener">
+          Buy from BKG.club
+          <small>community-favorite K-series shop</small>
+        </a>
+        <a class="buybtn buy-amz" href="https://www.amazon.com/s?k=Quansheng+UV-K5+V3" target="_blank" rel="noopener">
+          Search on Amazon
+          <small>Quansheng UV-K5 V3 / UV-K1</small>
+        </a>
+      </div>
+      <div class="warn">
+        <b>&#9888;&#65039; Buy the RIGHT version!</b> This firmware is <b>only</b> for the
+        <b>UV-K1 / UV-K5 V3</b> (PY32F071 chip). The older UV-K5 / K5(8) / K6 V1/V2 use a
+        different chip and <b>will not work</b> with this build. When in doubt, ask the seller.
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="construction">
+      &#128679; This site is under construction &#128679; (it's a school project, gimme a break)
+    </div>
+    <div class="badges">
+      <span class="badge">Best viewed in Netscape Navigator 4.0</span>
+      <span class="badge">800&times;600</span>
+      <span class="badge">Made with &lt;3 and Notepad</span>
+      <span class="badge">HTML 4 Approved</span>
+    </div>
+    <p>
+      You are visitor number
+      <span class="counter" id="hits">00073</span>
+      &mdash; thanks for stopping by! 73 de the CW Trainer crew.
+    </p>
+    <p style="font-size:12px;">
+      Firmware is open source under Apache-2.0, built on
+      <a href="https://github.com/armel/uv-k1-k5v3-firmware-custom" target="_blank" rel="noopener">F4HWN Fusion</a>
+      + the <a href="https://github.com/u77345/uv-k5-firmware-custom-cw" target="_blank" rel="noopener">NR7Y CW engine</a>.
+      Not affiliated with Quansheng. This page (and the firmware) comes with
+      <b>absolutely no warranty</b>.
+    </p>
+    <p><a href="#what">&#11014;&#65039; back to top &#11014;&#65039;</a></p>
+  </footer>
+
+</div>
+
+<script>
+  // cheesy "hit counter" that just ticks up a smidge each visit (localStorage)
+  (function(){
+    var el=document.getElementById('hits');
+    if(!el)return;
+    var n=parseInt(localStorage.getItem('cwHits')||'72',10)+1;
+    localStorage.setItem('cwHits',n);
+    el.textContent=('00000'+n).slice(-5);
+  })();
+</script>
+</body>
+</html>
